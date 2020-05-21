@@ -1,10 +1,10 @@
 #include <iostream>
 #include <limits>
-//Masukkan header lain di antara ini
-
-
-//
+#include <math.h>
 using namespace std;
+
+int biayaPaket[2] = {6000,10000};
+int globalnomorOrder = 1;
 
 void fail(){
     cin.clear();
@@ -23,9 +23,6 @@ enum enumPaket
     REGULER=1,
     EXPRESS
 };
-
-int biayaPaket[2] = {6000,10000};
-int globalnomorOrder = 1;
 
 struct pakaian {
     // enum untuk jenis pakaian
@@ -46,16 +43,17 @@ struct pakaian {
         PUTIH=1,
         BERWARNA=2
     };
-    // karakteristik pakaian
+    // member struct pakaian
+    int nomorOrder;
     int jenis;
     int warna;
     float berat;
     pakaian* next;
-
+    // constructor
     pakaian(){
         next = NULL;
     }
-
+    // method print keterangan jenis pakaian
     void printJenis(){
         cout << "Jenis pakaian yang diterima:\n"
                 "1 - Kaos\n"
@@ -67,14 +65,15 @@ struct pakaian {
                 "7 - Jaket\n"
                 "8 - Handuk\n";
     }
-
+    // method print keterangan warna pakaian
     void printWarna(){
         cout << "Pilihan warna pakaian:\n"
                 "1 - Putih\n"
                 "2 - Berwarna\n";
     }
-
-    void insertDataPakaian(){
+    // method untuk insersi data pakaian
+    void insertDataPakaian(int getNomorOrder){
+        nomorOrder = getNomorOrder;
         printJenis();
         cout << "Masukkan jenis pakaian (1-8) :\n> ";
         cin >> jenis;
@@ -88,23 +87,28 @@ struct pakaian {
 };
 
 struct dataPenerimaan {
-    int nomorOrder = globalnomorOrder;
+    // member struct dataPenerimaan
+    int nomorOrder;
     string namaCust;
     string alamat;
     int paket;
     float beratTotal;
-    int jumlahPakaian;
+    int jumlahPakaian[3];
     double total;
     pakaian* listPakaian;
     dataPenerimaan* next;
-
+    // constructor
     dataPenerimaan(){
+        nomorOrder = globalnomorOrder;
         beratTotal = 0;
+        for(int i=0; i<3; i++){
+            jumlahPakaian[i] = 0;
+        }
         total = 0;
         listPakaian = NULL;
         next = NULL;
     }
-
+    // method untuk menghitung total biaya
     void countTotal(float tempBerat, int tempPaket){
         int biaya;
         if (tempPaket==REGULER){
@@ -112,12 +116,12 @@ struct dataPenerimaan {
         } else if (tempPaket==EXPRESS){
             biaya = biayaPaket[1];
         }
-        total = tempBerat*float(biaya);
+        total = ceil(tempBerat)*float(biaya);
     }
-
+    // method untuk insersi pakaian
     void insertListPakaian(float &tempBerat){
         pakaian* newPakaian = new pakaian;
-        newPakaian->insertDataPakaian();
+        newPakaian->insertDataPakaian(nomorOrder);
         if (listPakaian == NULL){
             listPakaian = newPakaian;
         } else {
@@ -128,8 +132,13 @@ struct dataPenerimaan {
             helper->next = newPakaian;
         }
         tempBerat = newPakaian->berat;
+        if (newPakaian->warna==pakaian::enumWarna::PUTIH){
+            jumlahPakaian[pakaian::enumWarna::PUTIH]++;
+        } else {
+            jumlahPakaian[pakaian::enumWarna::BERWARNA]++;
+        }
     }
-
+    // method untuk insersi data pelanggan
     void insertDataPelanggan(){
         float tempBerat;
         int count = 1;
@@ -153,7 +162,7 @@ struct dataPenerimaan {
                 count++;
                 continue;
             } else {
-                jumlahPakaian = count;
+                jumlahPakaian[0] = count;
                 break;
             }
         }
@@ -161,85 +170,96 @@ struct dataPenerimaan {
         countTotal(beratTotal, paket);
         globalnomorOrder++;
     }
-
+    // method untuk mencetak data pelanggan
     void printDataPelanggan(){
         cout << "Nomor Order       : " << nomorOrder << endl;
         cout << "Nama Pelanggan    : " << namaCust << endl;
         cout << "Alamat            : " << alamat << endl;
         if (paket == 1){
             cout << "Paket             : Reguler" << endl;
-        } else if (paket == 2) {
+        } else if (paket == 2){
             cout << "Paket             : Ekspress" << endl;
         }
         cout << "Berat Total (kg)  : " << beratTotal << endl;
-        cout << "Jumlah Pakaian    : " << jumlahPakaian << endl;
+        cout << "Jumlah Pakaian    : " << jumlahPakaian[0] << endl;
         cout << "Total Biaya       : " << total << endl;
     }
+    // method untuk mengeluarkan pakaian dari list
 };
 
-void insertListPelanggan(dataPenerimaan *&antrianPelanggan){
-    dataPenerimaan* newPelanggan = new dataPenerimaan;
-    cin.ignore();
-    newPelanggan->insertDataPelanggan();
-    if (antrianPelanggan == NULL){
-        antrianPelanggan = newPelanggan;
-    } else {
-        dataPenerimaan* helper = antrianPelanggan;
-        while(helper->next!=NULL){
-            helper=helper->next;
+struct antrianPelanggan {
+    dataPenerimaan* head;
+    dataPenerimaan* tail;
+
+    antrianPelanggan(){
+        head = NULL;
+        tail = NULL;
+    }
+} queueDataPenerimaan;
+
+struct rak {
+    dataPenerimaan *arrayRak[50];
+
+    rak(){
+        for(int i=0; i<50; i++){
+            arrayRak[i] = NULL;
         }
-        helper->next = newPelanggan;
     }
-}
 
-void lihatAntrianPelanggan(dataPenerimaan* antrianPelanggan){
-    dataPenerimaan* helper = antrianPelanggan;
-    int count = 1;
-    if (helper == NULL){
-        cout << "Antrian Kosong!" << endl;
-    } else {
-        do {
-            printEqualSign(37);
-            cout << "                " << count << endl;
-            printEqualSign(37);
-            helper->printDataPelanggan();
-            printEqualSign(37);
-            helper=helper->next;
-            count++;
-        } while(helper!=NULL);
+    void isiRak(dataPenerimaan *&poppedPelanggan){
+        int nomorOrder = poppedPelanggan->nomorOrder;
+        nomorOrder--;
+        nomorOrder%=50;
+        if (arrayRak[nomorOrder]==NULL){
+            arrayRak[nomorOrder] = poppedPelanggan;
+        } else {
+            arrayRak[nomorOrder]->next = poppedPelanggan;
+        }
     }
-}
+} rakLaundry;
 
-void menuAntrianPesanan(dataPenerimaan *&antrianPelanggan){
-    enum enumMenuAntrianPesanan
-    {
-        TAMBAHPELANGGAN=1,
-        LIHATANTRIAN
-    };
-    int menuSelector = 0;
-    system("cls");
-    printEqualSign(37);
-    cout << "Antrian Pesanan\n";
-    printEqualSign(37);
-    cout << "1. Tambah Pelanggan\n"
-            "2. Lihat Antrian\n"
-            "Masukkan pilihan:\n> ";
-    cin >> menuSelector;
-    switch (menuSelector){
-        case TAMBAHPELANGGAN:
-            insertListPelanggan(antrianPelanggan);
-            break;
-        case LIHATANTRIAN:
-            lihatAntrianPelanggan(antrianPelanggan);
-            break;
-        default:
-            cout << "Masukan Anda salah!" << endl;
+#include "rak.h"
+
+#include "penerimaan.h"
+
+struct mesinCuci {
+    int kapasitasPutih;
+    int kapasitasWarna;
+    pakaian* mesinCuciPutih;
+    pakaian* mesinCuciWarna;
+
+    mesinCuci(){
+        kapasitasPutih = 0;
+        kapasitasWarna = 0;
+        mesinCuciPutih = NULL;
+        mesinCuciWarna = NULL;
     }
-}
+
+    void pushMesinCuci(pakaian* pakaianMasuk){
+        if (pakaianMasuk->warna == pakaian::enumWarna::PUTIH){
+            if (kapasitasPutih==0){
+                mesinCuciPutih = pakaianMasuk;
+            } else {
+                pakaianMasuk->next = mesinCuciPutih;
+                mesinCuciPutih = pakaianMasuk;
+            }
+            kapasitasPutih++;
+        } else {
+            if (kapasitasWarna==0){
+                mesinCuciWarna = pakaianMasuk;
+            } else {
+                pakaianMasuk->next = mesinCuciWarna;
+                mesinCuciWarna = pakaianMasuk;
+            }
+            kapasitasWarna++;
+        }
+    }
+} mesinCuciLaundry;
+
+#include "mesincuci.h"
 
 struct menu {
     int menuSelector;
-    dataPenerimaan* antrianPelanggan;
     enum menuEnum
     {
         TAMBAHPESANAN=1,
@@ -250,12 +270,11 @@ struct menu {
         KONFIGURASI,
         KELUAR
     };
-    
+    // constructor
     menu(){
         menuSelector = 0;
-        antrianPelanggan = NULL;
     }
-
+    // method display menu
     void display(){
         while (true){
             system("cls");
@@ -275,10 +294,10 @@ struct menu {
             cin >> menuSelector;
             switch(menuSelector){
                 case TAMBAHPESANAN:
-                    menuAntrianPesanan(antrianPelanggan);
+                    menuAntrianPesanan();
                     break;
                 case ATURMESINCUCI:
-                    cout << "Mengatur Mesin Cuci" << endl;
+                    menuMesinCuci();
                     break;
                 case ATURSETRIKA:
                     cout << "Mengatur Setrika" << endl;
@@ -287,7 +306,7 @@ struct menu {
                     cout << "Menyimpan ke Rak" << endl;
                     break;
                 case AMBILPESANAN:
-                    cout << "Mengambil Pesanan" << endl;
+                    menuRak();
                     break;
                 case KONFIGURASI:
                     cout << "Memulai Konfigurasi" << endl;
@@ -306,5 +325,3 @@ struct menu {
 int main(){
     mainMenu.display();
 }
-
-
