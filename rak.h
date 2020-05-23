@@ -3,8 +3,8 @@ void cekRak(){
     cout << "Masukkan nomor order\n> ";
     cin >> nomorOrderRak;
 
-    if (rakLaundry.arrayRak[nomorOrderRak-1]!=NULL){
-        DataPelanggan *helper = rakLaundry.arrayRak[nomorOrderRak-1];
+    if (rak.arrayRak[nomorOrderRak-1]!=NULL){
+        DataPelanggan *helper = rak.arrayRak[nomorOrderRak-1];
         do {
             if (helper->nomorOrder == nomorOrderRak){
                 cout << "Rak dengan nomor order " << nomorOrderRak << " ditemukan!" << endl;
