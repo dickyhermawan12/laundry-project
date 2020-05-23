@@ -6,14 +6,14 @@ void cekMesinCuci(){
 }
 
 void isiMesinCuci(){
-    if (queueDataPenerimaan.head == NULL) {
+    if (queueDataPelanggan.head == NULL) {
         cout << "Antrian Pelanggan Kosong!" << endl;
-    } else if ((queueDataPenerimaan.head->jumlahPakaian[pakaian::enumWarna::PUTIH] > (10-mesinCuciLaundry.kapasitasPutih)) ||
-        (queueDataPenerimaan.head->jumlahPakaian[pakaian::enumWarna::BERWARNA] > (10-mesinCuciLaundry.kapasitasWarna))){
+    } else if ((queueDataPelanggan.head->jumlahPakaian[::warna.PUTIH] > (10-mesinCuciLaundry.kapasitasPutih)) ||
+        (queueDataPelanggan.head->jumlahPakaian[::warna.BERWARNA] > (10-mesinCuciLaundry.kapasitasWarna))){
         cout << "Mesin Cuci Penuh!" << endl;
     } else {
-        dataPenerimaan* helpAntrian;
-        pakaian* helpPakaian;
+        DataPelanggan *helpAntrian;
+        Pakaian *helpPakaian;
         dequeueAntrian(helpAntrian);
         rakLaundry.isiRak(helpAntrian);
         do {
@@ -27,6 +27,8 @@ void isiMesinCuci(){
             mesinCuciLaundry.pushMesinCuci(helpPakaian);
             helpPakaian = NULL;
         } while(helpAntrian->listPakaian!=NULL);
+        cout << helpAntrian->nama << " telah dikeluarkan dari antrian pelanggan..." << endl;
+        cout << "Rak milik " << helpAntrian->nama << " telah dipersiapkan!" << endl;
     }
 }
 

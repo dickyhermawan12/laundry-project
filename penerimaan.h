@@ -1,14 +1,13 @@
-
 void enqueueAntrian(){
-    dataPenerimaan* newPelanggan = new dataPenerimaan;
+    DataPelanggan *newPelanggan = new DataPelanggan;
     cin.ignore();
     newPelanggan->insertDataPelanggan();
-    if (queueDataPenerimaan.head == NULL){
-        queueDataPenerimaan.head = newPelanggan;
-        queueDataPenerimaan.tail = newPelanggan;
+    if (queueDataPelanggan.head == NULL){
+        queueDataPelanggan.head = newPelanggan;
+        queueDataPelanggan.tail = newPelanggan;
     } else {
         // priority queue
-        dataPenerimaan *helper = queueDataPenerimaan.head;
+        DataPelanggan *helper = queueDataPelanggan.head;
         while(helper->next!=NULL){
             if(helper->next->paket>=newPelanggan->paket){
                 helper=helper->next;
@@ -16,32 +15,32 @@ void enqueueAntrian(){
                 break;
             }
         }
-        if ((helper == queueDataPenerimaan.head) && (helper->paket < newPelanggan->paket)){
-            newPelanggan->next = queueDataPenerimaan.head;
-            queueDataPenerimaan.head = newPelanggan;
+        if ((helper == queueDataPelanggan.head) && (helper->paket < newPelanggan->paket)){
+            newPelanggan->next = queueDataPelanggan.head;
+            queueDataPelanggan.head = newPelanggan;
         } else if (helper->next!=NULL){
             newPelanggan->next = helper->next;
             helper->next = newPelanggan;
         } else {
-            queueDataPenerimaan.tail->next = newPelanggan;
-            queueDataPenerimaan.tail = newPelanggan;
+            queueDataPelanggan.tail->next = newPelanggan;
+            queueDataPelanggan.tail = newPelanggan;
         }
     }
 }
 
-void dequeueAntrian(dataPenerimaan *&temp){
-    temp = queueDataPenerimaan.head;
-    if (queueDataPenerimaan.head->next == NULL){
-        queueDataPenerimaan.head = NULL;
-        queueDataPenerimaan.tail = NULL;
+void dequeueAntrian(DataPelanggan *&temp){
+    temp = queueDataPelanggan.head;
+    if (queueDataPelanggan.head->next == NULL){
+        queueDataPelanggan.head = NULL;
+        queueDataPelanggan.tail = NULL;
     } else {
-        queueDataPenerimaan.head = queueDataPenerimaan.head->next;
+        queueDataPelanggan.head = queueDataPelanggan.head->next;
     }
     temp->next = NULL;
 }
 
 void traversalAntrian(){
-    dataPenerimaan* helper = queueDataPenerimaan.head;
+    DataPelanggan *helper = queueDataPelanggan.head;
     int count = 1;
     if (helper == NULL){
         cout << "Antrian Kosong!" << endl;
@@ -62,16 +61,18 @@ void traversalPakaian(){
     int id, flag = 0, no = 1;
     cout << "Masukkan ID pesanan:\n> ";
     cin >> id;
-    dataPenerimaan* helpAntrian = queueDataPenerimaan.head;
+    DataPelanggan *helpAntrian = queueDataPelanggan.head;
     while(helpAntrian!=NULL){
-        if (helpAntrian->nomorOrder==id){
+        if (helpAntrian->nomorOrder == id){
             flag = 1;
-            pakaian* helpPakaian = helpAntrian->listPakaian;
+            Pakaian *helpPakaian = helpAntrian->listPakaian;
+            printEqualSign(37);
+            cout << "Pemilik : " << helpAntrian->nama << endl;
             do {
                 printEqualSign(37);
                 cout << "Pakaian ke-" << no << endl;
-                cout << "Jenis Pakaian: " << helpPakaian->jenis << endl;
-                cout << "Warna Pakaian: " << helpPakaian->warna << endl;
+                cout << "Jenis Pakaian: " << jenis.pakaian[helpPakaian->jenis] << endl;
+                cout << "Warna Pakaian: " << warna.pakaian[helpPakaian->warna] << endl;
                 printEqualSign(37);
                 helpPakaian=helpPakaian->next;
                 no++;
@@ -81,7 +82,7 @@ void traversalPakaian(){
             helpAntrian=helpAntrian->next;
         }
     }
-    if (flag==0){
+    if (flag == 0){
         cout << "Tidak ada nomor antrian!" << endl;
     }
 }
