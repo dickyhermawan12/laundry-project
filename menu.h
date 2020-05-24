@@ -5,7 +5,6 @@ struct menu {
         TAMBAHPESANAN=1,
         ATURMESINCUCI,
         ATURSETRIKA,
-        SIMPANRAK,
         AMBILPESANAN,
         KONFIGURASI,
         KELUAR
@@ -25,10 +24,9 @@ struct menu {
                     "1. Antrian Pesanan\n"
                     "2. Atur Mesin Cuci\n"
                     "3. Atur Setrikaan\n"
-                    "4. Simpan ke Rak\n"
-                    "5. Ambil Pesanan\n"
-                    "6. Konfigurasi\n"
-                    "7. Keluar\n";
+                    "4. Ambil Pesanan\n"
+                    "5. Konfigurasi\n"
+                    "6. Keluar\n";
             printEqualSign(37);
             cout << "Pilih Menu > ";
             cin >> menuSelector;
@@ -40,10 +38,7 @@ struct menu {
                     menuMesinCuci();
                     break;
                 case ATURSETRIKA:
-                    cout << "Mengatur Setrika" << endl;
-                    break;
-                case SIMPANRAK:
-                    cout << "Menyimpan ke Rak" << endl;
+                    menuSetrika();
                     break;
                 case AMBILPESANAN:
                     menuRak();

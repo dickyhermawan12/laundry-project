@@ -32,11 +32,76 @@ void isiMesinCuci(){
     }
 }
 
+void keluarkanPakaian(){
+    if (mesinCuci.kapasitasPutih == 0 && mesinCuci.kapasitasWarna == 0) {
+        cout << "Mesin Cuci Kosong!" << endl;
+    }
+    else {
+        Pakaian *helper;
+        Pakaian *pop;
+        while (mesinCuci.mesinCuciPutih!=NULL) {
+            stackSetrika.jumlahPakaian++;
+            mesinCuci.kapasitasPutih--;
+            if(mesinCuci.mesinCuciPutih->next == NULL){
+                pop = mesinCuci.mesinCuciPutih;
+                if(stackSetrika.listPakaian == NULL){
+                stackSetrika.listPakaian = pop;
+                }
+                else {
+                pop->next = stackSetrika.listPakaian;
+                stackSetrika.listPakaian = pop;
+                }
+                mesinCuci.mesinCuciPutih = NULL;
+            }
+            else {
+                pop = mesinCuci.mesinCuciPutih;
+                mesinCuci.mesinCuciPutih = mesinCuci.mesinCuciPutih->next;
+                pop->next = NULL;
+                if(stackSetrika.listPakaian == NULL){
+                stackSetrika.listPakaian = pop;
+                }
+                else {
+                pop->next = stackSetrika.listPakaian;
+                stackSetrika.listPakaian = pop;
+                }
+            }
+        }
+        while (mesinCuci.mesinCuciWarna!=NULL){
+            stackSetrika.jumlahPakaian++;
+            mesinCuci.kapasitasWarna--;
+            if(mesinCuci.mesinCuciWarna->next == NULL){
+                pop = mesinCuci.mesinCuciWarna;
+                if(stackSetrika.listPakaian == NULL){
+                stackSetrika.listPakaian = pop;
+                }
+                else {
+                pop->next = stackSetrika.listPakaian;
+                stackSetrika.listPakaian = pop;
+                }
+                mesinCuci.mesinCuciWarna = NULL;
+            }
+            else {
+                pop = mesinCuci.mesinCuciWarna;
+                mesinCuci.mesinCuciWarna = mesinCuci.mesinCuciWarna->next;
+                pop->next = NULL;
+                if(stackSetrika.listPakaian == NULL){
+                stackSetrika.listPakaian = pop;
+                }
+                else {
+                pop->next = stackSetrika.listPakaian;
+                stackSetrika.listPakaian = pop;
+                }
+            }
+        }
+    }
+}
+
 void menuMesinCuci(){
     enum enumMenuMesinCuci
     {
         CEKMESINCUCI=1,
-        ISIMESINCUCI
+        ISIMESINCUCI,
+        KELUARKANPAKAIAN
     };
     int menuSelector = 0;
     system("cls");
@@ -45,6 +110,7 @@ void menuMesinCuci(){
     printEqualSign(37);
     cout << "1. Cek Mesin Cuci\n"
             "2. Isi Mesin Cuci\n"
+            "3. Keluarkan Pakaian dari Mesin Cuci\n"
             "Masukkan pilihan:\n> ";
     cin >> menuSelector;
     switch (menuSelector){
@@ -54,6 +120,9 @@ void menuMesinCuci(){
         case ISIMESINCUCI:
             isiMesinCuci();
             break;
+        case KELUARKANPAKAIAN:
+            keluarkanPakaian();
+        break;
         default:
             cout << "Masukan Anda salah!" << endl;
     }

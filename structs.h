@@ -222,6 +222,18 @@ struct antrianPelanggan {
     }
 } queueDataPelanggan;
 
+// struct untuk menyimpan data setrika
+struct StackSetrika {
+    Pakaian *listPakaian;
+    int jumlahPakaian;
+
+    StackSetrika(){
+        listPakaian = NULL;
+        jumlahPakaian = 0;
+    }
+    
+} stackSetrika;
+
 // struct untuk menyimpan data rak
 struct Rak {
     DataPelanggan *arrayRak[50];

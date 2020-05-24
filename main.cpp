@@ -20,6 +20,8 @@ void printEqualSign(int num){
 
 #include "mesincuci.h"
 
+#include "setrika.h"
+
 #include "menu.h"
 
 int main(){
