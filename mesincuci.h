@@ -1,8 +1,11 @@
+
 void cekMesinCuci(){
     cout << "Kapasitas Mesin Cuci Putih saat ini:\n";
     cout << mesinCuci.kapasitasPutih << " / 10" << endl;
+    traversalPakaian(mesinCuci.mesinCuciPutih);
     cout << "Kapasitas Mesin Cuci Warna saat ini:\n";
     cout << mesinCuci.kapasitasWarna << " / 10" << endl;
+    traversalPakaian(mesinCuci.mesinCuciWarna);
 }
 
 void isiMesinCuci(){
@@ -25,74 +28,34 @@ void isiMesinCuci(){
             }
             helpPakaian->next = NULL;
             mesinCuci.pushMesinCuci(helpPakaian);
-            helpPakaian = NULL;
         } while(helpAntrian->listPakaian!=NULL);
         cout << helpAntrian->nama << " telah dikeluarkan dari antrian pelanggan..." << endl;
         cout << "Rak milik " << helpAntrian->nama << " telah dipersiapkan!" << endl;
     }
 }
 
+void popMesinCuci(Pakaian *&jenisMesinCuci, int &kapasitas){
+    Pakaian *helpPakaian;
+    while (kapasitas != 0){
+        helpPakaian = jenisMesinCuci;
+        if (kapasitas == 1){
+            jenisMesinCuci = NULL;
+        } else {
+            jenisMesinCuci = jenisMesinCuci->next;
+        }
+        helpPakaian->next = NULL;
+        stackSetrika.pushStackSetrika(helpPakaian);
+        kapasitas--;
+    };
+}
+
 void keluarkanPakaian(){
     if (mesinCuci.kapasitasPutih == 0 && mesinCuci.kapasitasWarna == 0) {
         cout << "Mesin Cuci Kosong!" << endl;
-    }
-    else {
-        Pakaian *helper;
-        Pakaian *pop;
-        while (mesinCuci.mesinCuciPutih!=NULL) {
-            stackSetrika.jumlahPakaian++;
-            mesinCuci.kapasitasPutih--;
-            if(mesinCuci.mesinCuciPutih->next == NULL){
-                pop = mesinCuci.mesinCuciPutih;
-                if(stackSetrika.listPakaian == NULL){
-                stackSetrika.listPakaian = pop;
-                }
-                else {
-                pop->next = stackSetrika.listPakaian;
-                stackSetrika.listPakaian = pop;
-                }
-                mesinCuci.mesinCuciPutih = NULL;
-            }
-            else {
-                pop = mesinCuci.mesinCuciPutih;
-                mesinCuci.mesinCuciPutih = mesinCuci.mesinCuciPutih->next;
-                pop->next = NULL;
-                if(stackSetrika.listPakaian == NULL){
-                stackSetrika.listPakaian = pop;
-                }
-                else {
-                pop->next = stackSetrika.listPakaian;
-                stackSetrika.listPakaian = pop;
-                }
-            }
-        }
-        while (mesinCuci.mesinCuciWarna!=NULL){
-            stackSetrika.jumlahPakaian++;
-            mesinCuci.kapasitasWarna--;
-            if(mesinCuci.mesinCuciWarna->next == NULL){
-                pop = mesinCuci.mesinCuciWarna;
-                if(stackSetrika.listPakaian == NULL){
-                stackSetrika.listPakaian = pop;
-                }
-                else {
-                pop->next = stackSetrika.listPakaian;
-                stackSetrika.listPakaian = pop;
-                }
-                mesinCuci.mesinCuciWarna = NULL;
-            }
-            else {
-                pop = mesinCuci.mesinCuciWarna;
-                mesinCuci.mesinCuciWarna = mesinCuci.mesinCuciWarna->next;
-                pop->next = NULL;
-                if(stackSetrika.listPakaian == NULL){
-                stackSetrika.listPakaian = pop;
-                }
-                else {
-                pop->next = stackSetrika.listPakaian;
-                stackSetrika.listPakaian = pop;
-                }
-            }
-        }
+    } else {
+        popMesinCuci(mesinCuci.mesinCuciPutih, mesinCuci.kapasitasPutih);
+        popMesinCuci(mesinCuci.mesinCuciWarna, mesinCuci.kapasitasWarna);
+        cout << "Seluruh pakaian dalam mesin cuci berhasil dikeluarkan dan ditumpuk pada tumpukan setrika!" << endl;
     }
 }
 
@@ -122,7 +85,7 @@ void menuMesinCuci(){
             break;
         case KELUARKANPAKAIAN:
             keluarkanPakaian();
-        break;
+            break;
         default:
             cout << "Masukan Anda salah!" << endl;
     }

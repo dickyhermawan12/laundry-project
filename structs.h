@@ -114,12 +114,16 @@ struct Pakaian {
 // struct untuk menyimpan data pelanggan
 struct DataPelanggan {
     // member struct
+    enum enumKeteranganJumlah{
+        AWAL=0,
+        AKHIR=3
+    };
     int nomorOrder;
     string nama;
     string alamat;
     int paket;
     float beratTotal;
-    int jumlahPakaian[3];
+    int jumlahPakaian[4];
     double totalBiaya;
     Pakaian *listPakaian;
     DataPelanggan *next;
@@ -127,7 +131,7 @@ struct DataPelanggan {
     DataPelanggan(){
         nomorOrder = globalNomorOrder;
         beratTotal = 0;
-        for(int i=0; i<3; i++){
+        for(int i=0; i<4; i++){
             jumlahPakaian[i] = 0;
         }
         totalBiaya = 0;
@@ -190,7 +194,7 @@ struct DataPelanggan {
                 count++;
                 continue;
             } else {
-                jumlahPakaian[0] = count;
+                jumlahPakaian[AWAL] = count;
                 break;
             }
         }
@@ -205,7 +209,7 @@ struct DataPelanggan {
         cout << "Alamat            : " << alamat << endl;
         cout << "Paket             : " << ::paket.nama[paket] << endl;
         cout << "Berat Total (kg)  : " << beratTotal << endl;
-        cout << "Jumlah Pakaian    : " << jumlahPakaian[0] << endl;
+        cout << "Jumlah Pakaian    : " << jumlahPakaian[AWAL] << endl;
         cout << "Total Biaya       : " << totalBiaya << endl;
     }
     // method untuk mengeluarkan pakaian dari list
@@ -231,14 +235,23 @@ struct StackSetrika {
         listPakaian = NULL;
         jumlahPakaian = 0;
     }
-    
+
+    void pushStackSetrika(Pakaian *&poppedPakaian){
+        if (jumlahPakaian == 0){
+            listPakaian = poppedPakaian;
+        } else {
+            poppedPakaian->next = listPakaian;
+            listPakaian = poppedPakaian;
+        }
+        jumlahPakaian++;
+    }
 } stackSetrika;
 
 // struct untuk menyimpan data rak
 struct Rak {
     DataPelanggan *arrayRak[50];
 
-    Rak() {
+    Rak(){
         for(int i=0; i<50; i++){
             arrayRak[i] = NULL;
         }
@@ -253,6 +266,29 @@ struct Rak {
         } else {
             arrayRak[nomorOrder]->next = poppedPelanggan;
         }
+    }
+
+    void isiPakaianKeRak(Pakaian *&poppedPakaian){
+        int nomorOrder = poppedPakaian->nomorOrder;
+        nomorOrder--;
+        DataPelanggan *helperPelanggan = arrayRak[nomorOrder];
+        if (helperPelanggan->next != NULL){
+            while (helperPelanggan != NULL){
+                if (helperPelanggan->nomorOrder == poppedPakaian->nomorOrder){
+                    break;
+                } else {
+                    helperPelanggan = helperPelanggan->next;
+                }
+            }
+        }
+
+        if (helperPelanggan->jumlahPakaian[3] == 0){
+            helperPelanggan->listPakaian = poppedPakaian;
+        } else {
+            poppedPakaian->next = helperPelanggan->listPakaian;
+            helperPelanggan->listPakaian = poppedPakaian;
+        }
+        helperPelanggan->jumlahPakaian[3]++;
     }
 } rak;
 
@@ -270,7 +306,7 @@ struct MesinCuci {
         mesinCuciWarna = NULL;
     }
     // method untuk push data ke mesin cuci
-    void pushMesinCuci(Pakaian *pakaianMasuk){
+    void pushMesinCuci(Pakaian *&pakaianMasuk){
         if (pakaianMasuk->warna == warna.PUTIH){
             if (kapasitasPutih == 0){
                 mesinCuciPutih = pakaianMasuk;

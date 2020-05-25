@@ -57,26 +57,17 @@ void traversalAntrian(){
     }
 }
 
-void traversalPakaian(){
-    int id, flag = 0, no = 1;
+void traversalPakaianAwal(){
+    int id, flag = 0;
     cout << "Masukkan ID pesanan:\n> ";
     cin >> id;
     DataPelanggan *helpAntrian = queueDataPelanggan.head;
-    while(helpAntrian!=NULL){
+    while(helpAntrian != NULL){
         if (helpAntrian->nomorOrder == id){
             flag = 1;
-            Pakaian *helpPakaian = helpAntrian->listPakaian;
             printEqualSign(37);
             cout << "Pemilik : " << helpAntrian->nama << endl;
-            do {
-                printEqualSign(37);
-                cout << "Pakaian ke-" << no << endl;
-                cout << "Jenis Pakaian: " << jenis.pakaian[helpPakaian->jenis] << endl;
-                cout << "Warna Pakaian: " << warna.pakaian[helpPakaian->warna] << endl;
-                printEqualSign(37);
-                helpPakaian=helpPakaian->next;
-                no++;
-            } while (helpPakaian!=NULL);
+            traversalPakaian(helpAntrian->listPakaian);
             break;
         } else {
             helpAntrian=helpAntrian->next;
@@ -112,7 +103,7 @@ void menuAntrianPesanan(){
             traversalAntrian();
             break;
         case CETAKPAKAIAN:
-            traversalPakaian();
+            traversalPakaianAwal();
             break;
         default:
             cout << "Masukan Anda salah!" << endl;

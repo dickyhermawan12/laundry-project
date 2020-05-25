@@ -1,5 +1,6 @@
-struct menu {
+struct Menu {
     int menuSelector;
+    // enum untuk pilihan menu
     enum menuEnum
     {
         TAMBAHPESANAN=1,
@@ -10,7 +11,7 @@ struct menu {
         KELUAR
     };
     // constructor
-    menu(){
+    Menu(){
         menuSelector = 0;
     }
     // method display menu
@@ -23,7 +24,7 @@ struct menu {
             cout << "Menu\n"
                     "1. Antrian Pesanan\n"
                     "2. Atur Mesin Cuci\n"
-                    "3. Atur Setrikaan\n"
+                    "3. Atur Setrika\n"
                     "4. Ambil Pesanan\n"
                     "5. Konfigurasi\n"
                     "6. Keluar\n";
@@ -55,4 +56,4 @@ struct menu {
             system("pause");
         }
     }
-} mainMenu;
+} menu;

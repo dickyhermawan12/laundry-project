@@ -1,10 +1,25 @@
 void cekSetrikaan(){
-    if(stackSetrika.listPakaian == NULL)
+    if (stackSetrika.listPakaian == NULL){
         cout<<"Tidak ada pakaian dalam tumpukan setrika\n";
-    else {
-        cout<<"Ada pakaian\n";
-        cout<<"Jumlah pakaian dalam tumpukkan setrika : "<<stackSetrika.jumlahPakaian<<endl;
+    } else {
+        cout<<"Jumlah pakaian dalam tumpukkan setrika : " << stackSetrika.jumlahPakaian << endl;
+        traversalPakaian(stackSetrika.listPakaian);
     }
+}
+
+void masukkanKeRak(){
+    Pakaian *helpPakaian;
+    while (stackSetrika.jumlahPakaian != 0) {
+        helpPakaian = stackSetrika.listPakaian;
+        if (stackSetrika.jumlahPakaian == 1){
+            stackSetrika.listPakaian = NULL;
+        } else {
+            stackSetrika.listPakaian = helpPakaian->next;
+        }
+        helpPakaian->next = NULL;
+        rak.isiPakaianKeRak(helpPakaian);
+        stackSetrika.jumlahPakaian--;
+    };
 }
 
 void menuSetrika(){
@@ -19,7 +34,7 @@ void menuSetrika(){
     cout << "Mode Setrika\n"
             "1. Cek Setrikaan\n"
             "2. Masukkan ke Rak\n"
-            "Pilih menu setrika:\n>";
+            "Pilih menu setrika:\n> ";
     
     cin >> menuSelector;
     switch (menuSelector){
@@ -27,7 +42,7 @@ void menuSetrika(){
             cekSetrikaan();
             break;
         case MASUKKANKERAK:
-            cout << "Masukkan Ke Rak \n";
+            masukkanKeRak();
             break;
         default:
             cout << "Masukan Anda salah!" << endl;
