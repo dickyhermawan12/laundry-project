@@ -1,13 +1,26 @@
+// file header untuk fungsi-fungsi mesin cuci
 
+// fungsi untuk mengecek keadaan mesin cuci
 void cekMesinCuci(){
+    char decision;
     cout << "Kapasitas Mesin Cuci Putih saat ini:\n";
     cout << mesinCuci.kapasitasPutih << " / 10" << endl;
-    traversalPakaian(mesinCuci.mesinCuciPutih);
     cout << "Kapasitas Mesin Cuci Warna saat ini:\n";
     cout << mesinCuci.kapasitasWarna << " / 10" << endl;
-    traversalPakaian(mesinCuci.mesinCuciWarna);
+
+    cout << "Lihat daftar pakaian? (Y/N)\n> ";
+    cin >> decision;
+    if (decision == 'Y' || decision == 'y'){
+        printEqualSign(37);
+        cout << "Mesin Cuci Putih" << endl;
+        traversalPakaian(mesinCuci.mesinCuciPutih);
+        printEqualSign(37);
+        cout << "Mesin Cuci Warna" << endl;
+        traversalPakaian(mesinCuci.mesinCuciWarna);
+    }
 }
 
+// fungsi untuk mengisi pakaian ke mesin cuci
 void isiMesinCuci(){
     if (queueDataPelanggan.head == NULL) {
         cout << "Antrian Pelanggan Kosong!" << endl;
@@ -34,6 +47,7 @@ void isiMesinCuci(){
     }
 }
 
+// fungsi untuk mengeluarkan pakaian dari mesin cuci sesuai jenisnya
 void popMesinCuci(Pakaian *&jenisMesinCuci, int &kapasitas){
     Pakaian *helpPakaian;
     while (kapasitas != 0){
@@ -49,6 +63,7 @@ void popMesinCuci(Pakaian *&jenisMesinCuci, int &kapasitas){
     };
 }
 
+// fungsi untuk mengeluarkan pakaian dari mesin cuci
 void keluarkanPakaian(){
     if (mesinCuci.kapasitasPutih == 0 && mesinCuci.kapasitasWarna == 0) {
         cout << "Mesin Cuci Kosong!" << endl;
@@ -59,6 +74,7 @@ void keluarkanPakaian(){
     }
 }
 
+// fungsi menu mesin cuci
 void menuMesinCuci(){
     enum enumMenuMesinCuci
     {

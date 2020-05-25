@@ -56,7 +56,7 @@ struct JenisPakaian {
         HANDUK=8
     };
     // array untuk jenis pakaian
-    string pakaian[9] = {
+    string pakaian[20] = {
         "Undefined",
         "Kaos",
         "Kemeja",
@@ -67,6 +67,7 @@ struct JenisPakaian {
         "Jaket",
         "Handuk"
     };
+    int maxJenis = 8;
     // method untuk cetak pakaian
     string getJenisPakaian(int input){
         return pakaian[input];
@@ -90,7 +91,7 @@ struct Pakaian {
         nomorOrder = getNomorOrder;
         // print list jenis pakaian
         cout << "Jenis pakaian yang diterima:\n";
-        for(int i=1; i<=8; i++){
+        for(int i=1; i<=::jenis.maxJenis; i++){
             cout << i << " - " << ::jenis.pakaian[i] << endl;
         }
         // input jenis pakaian
@@ -180,7 +181,7 @@ struct DataPelanggan {
         // print list warna pakaian
         cout << "Paket yang dapat dipilih:\n";
         for(int i=1; i<=2; i++){
-            cout << i << " - " << ::paket.nama[i] << endl;
+            cout << i << " - " << ::paket.nama[i] << " - " << ::paket.biaya[i] << endl;
         }
         cout << "Masukkan paket yang dipilih (1/2):\n> ";
         cin >> paket;

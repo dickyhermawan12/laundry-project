@@ -1,12 +1,20 @@
+// file header untuk fungsi-fungsi setrika
+
+// fungsi untuk mengecek keadaan setrika
 void cekSetrikaan(){
     if (stackSetrika.listPakaian == NULL){
         cout<<"Tidak ada pakaian dalam tumpukan setrika\n";
     } else {
+        char decision;
         cout<<"Jumlah pakaian dalam tumpukkan setrika : " << stackSetrika.jumlahPakaian << endl;
-        traversalPakaian(stackSetrika.listPakaian);
+        cout << "Lihat daftar pakaian? (Y/N)\n> ";
+        cin >> decision;
+        if (decision == 'Y' || decision == 'y')
+            traversalPakaian(stackSetrika.listPakaian);
     }
 }
 
+// fungsi untuk memasukkan pakaian ke dalam rak
 void masukkanKeRak(){
     Pakaian *helpPakaian;
     while (stackSetrika.jumlahPakaian != 0) {
@@ -22,6 +30,7 @@ void masukkanKeRak(){
     };
 }
 
+// fungsi untuk menu setrika
 void menuSetrika(){
     enum enumMenuSetrikaan
     {

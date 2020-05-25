@@ -1,3 +1,6 @@
+// file header untuk fungsi-fungsi penerimaan pelanggan
+
+// fungsi untuk melakukan enqueue antrian terdepan
 void enqueueAntrian(){
     DataPelanggan *newPelanggan = new DataPelanggan;
     cin.ignore();
@@ -28,6 +31,7 @@ void enqueueAntrian(){
     }
 }
 
+// fungsi untuk melakukan dequeue antrian
 void dequeueAntrian(DataPelanggan *&temp){
     temp = queueDataPelanggan.head;
     if (queueDataPelanggan.head->next == NULL){
@@ -39,6 +43,7 @@ void dequeueAntrian(DataPelanggan *&temp){
     temp->next = NULL;
 }
 
+// fungsi untuk melakukan traversal antrian
 void traversalAntrian(){
     DataPelanggan *helper = queueDataPelanggan.head;
     int count = 1;
@@ -57,6 +62,7 @@ void traversalAntrian(){
     }
 }
 
+// fungsi untuk melakukan traversal pakaian (penerimaan)
 void traversalPakaianAwal(){
     int id, flag = 0;
     cout << "Masukkan ID pesanan:\n> ";
@@ -78,6 +84,7 @@ void traversalPakaianAwal(){
     }
 }
 
+// fungsi untuk menu antrian pesanan
 void menuAntrianPesanan(){
     enum enumMenuAntrianPesanan
     {

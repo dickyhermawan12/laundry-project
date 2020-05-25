@@ -1,3 +1,6 @@
+// file header untuk fungsi menu
+
+// struct menu
 struct Menu {
     int menuSelector;
     // enum untuk pilihan menu
@@ -45,7 +48,7 @@ struct Menu {
                     menuRak();
                     break;
                 case KONFIGURASI:
-                    cout << "Memulai Konfigurasi" << endl;
+                    configuration();
                     break;
                 case KELUAR:
                     cout << "Sampai Jumpa Lagi!" << endl;

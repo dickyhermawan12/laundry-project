@@ -17,22 +17,21 @@ void traversalPakaian(Pakaian *&listPakaian);
 
 #include "rak.h"
 
-// file header untuk fungsi-fungsi penerimaan pelanggan
 #include "penerimaan.h"
 
-// file header untuk fungsi-fungsi setrika
 #include "setrika.h"
 
-// file header untuk fungsi-fungsi mesin cuci
 #include "mesincuci.h"
 
-// file header untuk fungsi menu
+#include "config.h"
+
 #include "menu.h"
 
 int main(){
     menu.display();
 }
 
+// fungsi untuk melakukan print tanda sama dengan
 void printEqualSign(int num){
     for(int i=0; i<num; i++){
         cout << "=";
@@ -40,6 +39,7 @@ void printEqualSign(int num){
     cout << endl;
 }
 
+// fungsi untuk melakukan traversal pakaian
 void traversalPakaian(Pakaian *&listPakaian){
     Pakaian *helpPakaian = listPakaian;
     int no = 1;
