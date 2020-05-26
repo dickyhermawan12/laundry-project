@@ -2,11 +2,12 @@
 
 // fungsi untuk mengecek keadaan setrika
 void cekSetrikaan(){
-    if (stackSetrika.listPakaian == NULL){
-        cout<<"Tidak ada pakaian dalam tumpukan setrika\n";
+    if (stackSetrika.jumlahPakaian == 0){
+        cout << "Tidak ada pakaian dalam tumpukan setrika!" << endl << endl;
     } else {
         char decision;
-        cout<<"Jumlah pakaian dalam tumpukkan setrika : " << stackSetrika.jumlahPakaian << endl;
+        cout<<"Jumlah pakaian dalam tumpukan setrika : " << stackSetrika.jumlahPakaian << endl;
+        printEqualSign(50);
         cout << "Lihat daftar pakaian? (Y/N)\n> ";
         cin >> decision;
         if (decision == 'Y' || decision == 'y')
@@ -16,18 +17,23 @@ void cekSetrikaan(){
 
 // fungsi untuk memasukkan pakaian ke dalam rak
 void masukkanKeRak(){
-    Pakaian *helpPakaian;
-    while (stackSetrika.jumlahPakaian != 0) {
-        helpPakaian = stackSetrika.listPakaian;
-        if (stackSetrika.jumlahPakaian == 1){
-            stackSetrika.listPakaian = NULL;
-        } else {
-            stackSetrika.listPakaian = helpPakaian->next;
+    if (stackSetrika.jumlahPakaian == 0){
+        cout << "Tidak ada pakaian dalam tumpukan setrika!" << endl << endl;
+    } else {
+        Pakaian *helpPakaian;
+        while (stackSetrika.jumlahPakaian != 0) {
+            helpPakaian = stackSetrika.listPakaian;
+            if (stackSetrika.jumlahPakaian == 1){
+                stackSetrika.listPakaian = NULL;
+            } else {
+                stackSetrika.listPakaian = helpPakaian->next;
+            }
+            helpPakaian->next = NULL;
+            rak.isiPakaianKeRak(helpPakaian);
+            stackSetrika.jumlahPakaian--;
         }
-        helpPakaian->next = NULL;
-        rak.isiPakaianKeRak(helpPakaian);
-        stackSetrika.jumlahPakaian--;
-    };
+        cout << "Seluruh pakaian dalam tumpukan setrika telah dipindahkan pada rak masing-masing pelanggan!" << endl << endl;
+    }
 }
 
 // fungsi untuk menu setrika
@@ -39,13 +45,15 @@ void menuSetrika(){
     };
     int menuSelector = 0;
     system("cls");
-    printEqualSign(37);
-    cout << "Mode Setrika\n"
-            "1. Cek Setrikaan\n"
+    printEqualSign(50);
+    cout << "                   Mode Setrika\n";
+    printEqualSign(50);
+    cout << "1. Cek Setrikaan\n"
             "2. Masukkan ke Rak\n"
             "Pilih menu setrika:\n> ";
     
     cin >> menuSelector;
+    printEqualSign(50);
     switch (menuSelector){
         case CEKSETRIKAAN:
             cekSetrikaan();

@@ -4,10 +4,9 @@
 void cekRak(){
     int nomorOrderRak, flag = 0;
     char decision;
-
     cout << "Masukkan nomor order\n> ";
     cin >> nomorOrderRak;
-
+    printEqualSign(50);
     DataPelanggan *helper = rak.arrayRak[nomorOrderRak - 1];
     while (helper != NULL){
         if (helper->nomorOrder == nomorOrderRak){
@@ -15,6 +14,7 @@ void cekRak(){
             cout << "Nama pemilik: " << helper->nama << endl;
             cout << "Jumlah pakaian saat ini: " << helper->jumlahPakaian[helper->AKHIR] << " / " << helper->jumlahPakaian[helper->AWAL] << endl;
             if (helper->jumlahPakaian[helper->AKHIR] != 0){
+                printEqualSign(50);
                 cout << "Lihat daftar pakaian? (Y/N)\n> ";
                 cin >> decision;
                 if (decision == 'Y' || decision == 'y')
@@ -28,22 +28,21 @@ void cekRak(){
     }
 
     if (flag == 0){
-        cout << "Rak dengan nomor order " << nomorOrderRak << " tidak ditemukan!" << endl;
+        cout << "Rak dengan nomor order " << nomorOrderRak << " tidak ditemukan!" << endl << endl;
     }
 }
 
 // fungsi untuk mengambil/ mengosongkan pesanan dari rak
 void ambilPesananDariRak(){
     int nomorOrderRak, flag = 0;
-
     cout << "Masukkan nomor order\n> ";
     cin >> nomorOrderRak;
-
+    printEqualSign(50);
     DataPelanggan *helper = rak.arrayRak[nomorOrderRak - 1];
     while (helper != NULL){
         if (helper->nomorOrder == nomorOrderRak){
             if (helper->jumlahPakaian[helper->AKHIR] != helper->jumlahPakaian[helper->AWAL]){
-                cout << "Pakaian belum dapat diambil!" << endl;
+                cout << "Pakaian belum dapat diambil!" << endl << endl;
             } else {
                 if (rak.arrayRak[nomorOrderRak - 1] == helper){
                     rak.arrayRak[nomorOrderRak - 1] = NULL;
@@ -62,7 +61,7 @@ void ambilPesananDariRak(){
                         }
                     } while (secondHelper != NULL);
                 }
-                cout << "Pelanggan dengan nama " << helper->nama << " telah selesai melakukan laundry!" << endl;
+                cout << "Pelanggan dengan nama " << helper->nama << " telah selesai melakukan laundry!" << endl << endl;
                 free(helper);
             }
             flag = 1;
@@ -73,7 +72,7 @@ void ambilPesananDariRak(){
     }
 
     if (flag == 0) {
-        cout << "Rak dengan nomor order " << nomorOrderRak << " tidak ditemukan!" << endl;
+        cout << "Rak dengan nomor order " << nomorOrderRak << " tidak ditemukan!" << endl << endl;
     }
 }
 
@@ -86,13 +85,14 @@ void menuRak(){
     };
     int menuSelector = 0;
     system("cls");
-    printEqualSign(37);
-    cout << "Rak Laundry\n";
-    printEqualSign(37);
+    printEqualSign(50);
+    cout << "                   Rak Laundry\n";
+    printEqualSign(50);
     cout << "1. Cek Nomor Order pada Rak\n"
             "2. Ambil Pesanan dari Rak\n"
             "Masukkan pilihan:\n> ";
     cin >> menuSelector;
+    printEqualSign(50);
     switch (menuSelector){
         case CEKRAK:
             cekRak();
@@ -101,6 +101,9 @@ void menuRak(){
             ambilPesananDariRak();
             break;
         default:
-            cout << "Masukan Anda salah!" << endl;
+            if (cin.fail()){
+                fail();
+            }
+            cout << "Masukan Anda salah!" << endl << endl;
     }
 }

@@ -6,11 +6,14 @@ using namespace std;
 // variabel untuk menyimpan nomor order keseluruhan
 int globalNomorOrder = 1;
 
-// file header yang menyimpan objek-objek struct
-#include "structs.h"
+// prototype fungsi fail
+void fail();
 
 // prototype fungsi print tanda sama dengan
 void printEqualSign(int num);
+
+// file header yang menyimpan objek-objek struct
+#include "structs.h"
 
 // prototype fungsi traversal pakaian
 void traversalPakaian(Pakaian *&listPakaian);
@@ -25,10 +28,18 @@ void traversalPakaian(Pakaian *&listPakaian);
 
 #include "config.h"
 
+#include "howto.h"
+
 #include "menu.h"
 
 int main(){
     menu.display();
+}
+
+// fungsi fail
+void fail(){
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 // fungsi untuk melakukan print tanda sama dengan
@@ -44,12 +55,13 @@ void traversalPakaian(Pakaian *&listPakaian){
     Pakaian *helpPakaian = listPakaian;
     int no = 1;
     while (helpPakaian != NULL){
-        printEqualSign(37);
-        cout << "Pakaian ke-" << no << endl;
+        printEqualSign(50);
+        cout << "Pakaian ke - " << no << endl;
+        printEqualSign(50);
         cout << "Nomor Order  : " << helpPakaian->nomorOrder << endl;
         cout << "Jenis Pakaian: " << jenis.pakaian[helpPakaian->jenis] << endl;
         cout << "Warna Pakaian: " << warna.pakaian[helpPakaian->warna] << endl;
-        printEqualSign(37);
+        printEqualSign(50);
         helpPakaian=helpPakaian->next;
         no++;
     }

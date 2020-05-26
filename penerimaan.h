@@ -48,14 +48,14 @@ void traversalAntrian(){
     DataPelanggan *helper = queueDataPelanggan.head;
     int count = 1;
     if (helper == NULL){
-        cout << "Antrian Kosong!" << endl;
+        cout << "Antrian Kosong!" << endl << endl;
     } else {
         do {
-            printEqualSign(37);
-            cout << "                " << count << endl;
-            printEqualSign(37);
+            printEqualSign(50);
+            cout << "                         " << count << endl;
+            printEqualSign(50);
             helper->printDataPelanggan();
-            printEqualSign(37);
+            printEqualSign(50);
             helper=helper->next;
             count++;
         } while(helper!=NULL);
@@ -65,13 +65,13 @@ void traversalAntrian(){
 // fungsi untuk melakukan traversal pakaian (penerimaan)
 void traversalPakaianAwal(){
     int id, flag = 0;
-    cout << "Masukkan ID pesanan:\n> ";
+    cout << "Masukkan nomor order pesanan:\n> ";
     cin >> id;
     DataPelanggan *helpAntrian = queueDataPelanggan.head;
     while(helpAntrian != NULL){
         if (helpAntrian->nomorOrder == id){
             flag = 1;
-            printEqualSign(37);
+            printEqualSign(50);
             cout << "Pemilik : " << helpAntrian->nama << endl;
             traversalPakaian(helpAntrian->listPakaian);
             break;
@@ -80,7 +80,7 @@ void traversalPakaianAwal(){
         }
     }
     if (flag == 0){
-        cout << "Tidak ada nomor antrian!" << endl;
+        cout << "Tidak ada nomor antrian!" << endl << endl;
     }
 }
 
@@ -94,14 +94,15 @@ void menuAntrianPesanan(){
     };
     int menuSelector = 0;
     system("cls");
-    printEqualSign(37);
-    cout << "Antrian Pesanan\n";
-    printEqualSign(37);
+    printEqualSign(50);
+    cout << "                  Antrian Pesanan\n";
+    printEqualSign(50);
     cout << "1. Tambah Pelanggan\n"
             "2. Lihat Antrian\n"
             "3. Cetak Pakaian Pelanggan\n"
             "Masukkan pilihan:\n> ";
     cin >> menuSelector;
+    printEqualSign(50);
     switch (menuSelector){
         case TAMBAHPELANGGAN:
             enqueueAntrian();
@@ -113,6 +114,9 @@ void menuAntrianPesanan(){
             traversalPakaianAwal();
             break;
         default:
-            cout << "Masukan Anda salah!" << endl;
+            if (cin.fail()){
+                fail();
+            }
+            cout << "Masukan Anda salah!" << endl << endl;
     }
 }

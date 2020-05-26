@@ -94,17 +94,21 @@ struct Pakaian {
         for(int i=1; i<=::jenis.maxJenis; i++){
             cout << i << " - " << ::jenis.pakaian[i] << endl;
         }
+        printEqualSign(50);
         // input jenis pakaian
         cout << "Masukkan jenis pakaian (1-8) :\n> ";
         cin >> jenis;
+        printEqualSign(50);
         // print list warna pakaian
         cout << "Warna pakaian yang diterima:\n";
         for(int i=1; i<=2; i++){
             cout << i << " - " << ::warna.pakaian[i] << endl;
         }
+        printEqualSign(50);
         // input warna pakaian
         cout << "Masukkan warna pakaian (1/2) :\n> ";
         cin >> warna;
+        printEqualSign(50);
         // input berat pakaian
         cout << "Masukkan berat pakaian (gram) :\n> ";
         cin >> berat;
@@ -150,57 +154,77 @@ struct DataPelanggan {
         totalBiaya = ceil(tempBerat)*float(biaya);
     }
     // method untuk insersi pakaian
-    void insertListPakaian(float &tempBerat){
+    void insertListPakaian(float &tempBerat, int &flag){
         Pakaian *newPakaian = new Pakaian;
         newPakaian->insertDataPakaian(nomorOrder);
-        if (listPakaian == NULL){
-            listPakaian = newPakaian;
+        if (((newPakaian->warna == ::warna.PUTIH) && (jumlahPakaian[::warna.PUTIH] == 10)) ||
+        ((newPakaian->warna == ::warna.BERWARNA) && (jumlahPakaian[::warna.BERWARNA] == 10))){
+            printEqualSign(50);
+            cout << "Jumlah pakaian dengan warna ini telah mencapai batas maksimal!" << endl;
+            delete newPakaian;
+            flag = 0;
         } else {
-            Pakaian *helper = listPakaian;
-            while(helper->next!=NULL){
-                helper=helper->next;
+            if (listPakaian == NULL){
+                listPakaian = newPakaian;
+            } else {
+                Pakaian *helper = listPakaian;
+                while (helper->next != NULL)
+                {
+                    helper = helper->next;
+                }
+                helper->next = newPakaian;
             }
-            helper->next = newPakaian;
-        }
-        tempBerat = newPakaian->berat;
-        if (newPakaian->warna == warna.PUTIH){
-            jumlahPakaian[::warna.PUTIH]++;
-        } else {
-            jumlahPakaian[::warna.BERWARNA]++;
+            tempBerat = newPakaian->berat;
+            if (newPakaian->warna == warna.PUTIH){
+                jumlahPakaian[::warna.PUTIH]++;
+            } else {
+                jumlahPakaian[::warna.BERWARNA]++;
+            }
+            flag = 1;
         }
     }
     // method untuk insersi data pelanggan
     void insertDataPelanggan(){
         float tempBerat;
-        int count = 1;
+        int count = 1, flag = 0;
         char decision;
         cout << "Masukkan nama pelanggan:\n> ";
         getline(cin, nama);
+        printEqualSign(50);
         cout << "Masukkan alamat:\n> ";
         getline(cin, alamat);
+        printEqualSign(50);
         // print list warna pakaian
         cout << "Paket yang dapat dipilih:\n";
         for(int i=1; i<=2; i++){
             cout << i << " - " << ::paket.nama[i] << " - " << ::paket.biaya[i] << endl;
         }
+        printEqualSign(50);
         cout << "Masukkan paket yang dipilih (1/2):\n> ";
         cin >> paket;
         while(true){
-            cout << "Masukkan pakaian ke-" << count << "\n> ";
-            insertListPakaian(tempBerat);
-            beratTotal+=tempBerat;
+            system("cls");
+            printEqualSign(50);
+            printDataPelanggan();
+            printEqualSign(50);
+            cout << "Masukkan pakaian ke - " << count << endl;
+            printEqualSign(50);
+            insertListPakaian(tempBerat, flag);
+            if (flag != 0){
+                beratTotal+=tempBerat/1000;
+                countTotal(beratTotal, paket);
+                jumlahPakaian[AWAL] = count;
+                count++;
+            }
+            printEqualSign(50);
             cout << "Apakah Anda ingin menambah pakaian? (Y/N)\n> ";
             cin >> decision;
             if (decision=='Y' || decision=='y'){
-                count++;
                 continue;
             } else {
-                jumlahPakaian[AWAL] = count;
                 break;
             }
         }
-        beratTotal/=1000;
-        countTotal(beratTotal, paket);
         globalNomorOrder++;
     }
     // method untuk mencetak data pelanggan

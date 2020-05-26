@@ -28,15 +28,22 @@ void ubahJenis(){
             cout << "Jenis terubah!" << endl;
             break;
         case TAMBAHJENIS:
+            if (::jenis.maxJenis == 19){
+                cout << "Jenis pakaian penuh!" << endl << endl;
+                break;
+            }
             ::jenis.maxJenis++;
             cin.ignore();
             cout << "Ingin menambah apa?\n> ";
             getline(cin, changes);
             ::jenis.pakaian[::jenis.maxJenis] = changes;
-            cout << "Jenis " << changes << " ditambah!" << endl;
+            cout << "Jenis " << changes << " ditambah!" << endl << endl;
             break;
         default:
-            cout << "Masukan Anda salah!" << endl;
+            if (cin.fail()){
+                fail();
+            }
+            cout << "Masukan Anda salah!" << endl << endl;
     }
 }
 
@@ -52,6 +59,7 @@ void ubahBiaya(){
             "2. Ubah biaya ekspress\n"
             "Masukkan pilihan:\n> ";
     cin >> menuSelector;
+    printEqualSign(50);
     switch (menuSelector){
         case (::paket.REGULER):
             cout << "Ubah menjadi?\n> ";
@@ -63,10 +71,10 @@ void ubahBiaya(){
             cout << "Ubah menjadi?\n> ";
             cin >> changes;
             ::paket.biaya[::paket.EKSPRESS] = changes;
-            cout << "Biaya ekspress terubah!" << endl;
+            cout << "Biaya ekspress terubah!" << endl << endl;
             break;
         default:
-            cout << "Masukan Anda salah!" << endl;
+            cout << "Masukan Anda salah!" << endl << endl;
     }
 }
 
@@ -79,12 +87,14 @@ void configuration(){
     int menuSelector = 0;
     system("cls");
     printEqualSign(37);
-    cout << "Konfigurasi\n"
-            "Apa yang ingin diubah?\n"
+    cout << "                  Konfigurasi\n";
+    printEqualSign(37);
+    cout << "Apa yang ingin diubah?\n"
             "1. Jenis Pakaian\n"
             "2. Biaya Paket\n"
             "Masukkan pilihan:\n> ";
     cin >> menuSelector;
+    printEqualSign(50);
     switch (menuSelector){
         case UBAHJENIS:
             ubahJenis();
@@ -93,6 +103,6 @@ void configuration(){
             ubahBiaya();
             break;
         default:
-            cout << "Masukan Anda salah!" << endl;
+            cout << "Masukan Anda salah!" << endl << endl;
     }
 }
