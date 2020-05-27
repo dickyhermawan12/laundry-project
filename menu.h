@@ -113,13 +113,13 @@ struct Menu {
                     break;
                 case KELUAR:
                     purge();
-                    cout << "Sampai Jumpa Lagi!" << endl;
+                    cout << "Sampai Jumpa Lagi!\n\n";
                     exit(1);
                 default:
                     if (cin.fail()){
                         fail();
                     }
-                    cout << "Masukan Anda salah!" << endl << endl;
+                    cout << "Masukan Anda salah!\n\n";
             }
             system("pause");
         }

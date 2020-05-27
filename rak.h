@@ -11,7 +11,9 @@ void cekRak(){
     while (helper != NULL){
         if (helper->nomorOrder == nomorOrderRak){
             cout << "Rak dengan nomor order " << nomorOrderRak << " ditemukan!" << endl;
-            cout << "Nama pemilik: " << helper->nama << endl;
+            printEqualSign(50);
+            helper->printDataPelanggan(helper->AKHIR);
+            printEqualSign(50);
             cout << "Jumlah pakaian saat ini: " << helper->jumlahPakaian[helper->AKHIR] << " / " << helper->jumlahPakaian[helper->AWAL] << endl;
             if (helper->jumlahPakaian[helper->AKHIR] != 0){
                 printEqualSign(50);
@@ -19,6 +21,14 @@ void cekRak(){
                 cin >> decision;
                 if (decision == 'Y' || decision == 'y')
                     traversalPakaian(helper->listPakaian);
+            }
+            if (helper->totalBiaya[0] != helper->totalBiaya[1]){
+                cout << "Selesaikan pembayaran? (Y/N)\n> ";
+                cin >> decision;
+                if (decision == 'Y' || decision == 'y'){
+                    helper->totalBiaya[0] = helper->totalBiaya[1];
+                    cout << "Pembayaran berhasil dan telah dilunasi!" << endl;
+                }
             }
             flag = 1;
             break;
@@ -28,7 +38,7 @@ void cekRak(){
     }
 
     if (flag == 0){
-        cout << "Rak dengan nomor order " << nomorOrderRak << " tidak ditemukan!" << endl << endl;
+        cout << "Rak dengan nomor order " << nomorOrderRak << " tidak ditemukan!\n\n";
     }
 }
 
@@ -41,8 +51,9 @@ void ambilPesananDariRak(){
     DataPelanggan *helper = rak.arrayRak[nomorOrderRak - 1];
     while (helper != NULL){
         if (helper->nomorOrder == nomorOrderRak){
-            if (helper->jumlahPakaian[helper->AKHIR] != helper->jumlahPakaian[helper->AWAL]){
-                cout << "Pakaian belum dapat diambil!" << endl << endl;
+            if (helper->jumlahPakaian[helper->AKHIR] != helper->jumlahPakaian[helper->AWAL] ||
+            helper->totalBiaya[0] != helper->totalBiaya[1]){
+                cout << "Pakaian belum dapat diambil!\n\n";
             } else {
                 if (rak.arrayRak[nomorOrderRak - 1] == helper){
                     rak.arrayRak[nomorOrderRak - 1] = NULL;
@@ -61,7 +72,7 @@ void ambilPesananDariRak(){
                         }
                     } while (secondHelper != NULL);
                 }
-                cout << "Pelanggan dengan nama " << helper->nama << " telah selesai melakukan laundry!" << endl << endl;
+                cout << "Pelanggan dengan nama " << helper->nama << " telah selesai melakukan laundry!\n\n";
                 free(helper);
             }
             flag = 1;
@@ -72,7 +83,7 @@ void ambilPesananDariRak(){
     }
 
     if (flag == 0) {
-        cout << "Rak dengan nomor order " << nomorOrderRak << " tidak ditemukan!" << endl << endl;
+        cout << "Rak dengan nomor order " << nomorOrderRak << " tidak ditemukan!\n\n";
     }
 }
 
@@ -104,6 +115,6 @@ void menuRak(){
             if (cin.fail()){
                 fail();
             }
-            cout << "Masukan Anda salah!" << endl << endl;
+            cout << "Masukan Anda salah!\n\n";
     }
 }

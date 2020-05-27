@@ -6,6 +6,9 @@ using namespace std;
 // variabel untuk menyimpan nomor order keseluruhan
 int globalNomorOrder = 1;
 
+// variabel untuk kapasitas maksimal mesin cuci
+int maxCapacity = 10;
+
 // prototype fungsi fail
 void fail();
 

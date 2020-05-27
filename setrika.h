@@ -3,7 +3,7 @@
 // fungsi untuk mengecek keadaan setrika
 void cekSetrikaan(){
     if (stackSetrika.jumlahPakaian == 0){
-        cout << "Tidak ada pakaian dalam tumpukan setrika!" << endl << endl;
+        cout << "Tidak ada pakaian dalam tumpukan setrika!\n\n";
     } else {
         char decision;
         cout<<"Jumlah pakaian dalam tumpukan setrika : " << stackSetrika.jumlahPakaian << endl;
@@ -18,7 +18,7 @@ void cekSetrikaan(){
 // fungsi untuk memasukkan pakaian ke dalam rak
 void masukkanKeRak(){
     if (stackSetrika.jumlahPakaian == 0){
-        cout << "Tidak ada pakaian dalam tumpukan setrika!" << endl << endl;
+        cout << "Tidak ada pakaian dalam tumpukan setrika!\n\n";
     } else {
         Pakaian *helpPakaian;
         while (stackSetrika.jumlahPakaian != 0) {
@@ -32,7 +32,8 @@ void masukkanKeRak(){
             rak.isiPakaianKeRak(helpPakaian);
             stackSetrika.jumlahPakaian--;
         }
-        cout << "Seluruh pakaian dalam tumpukan setrika telah dipindahkan pada rak masing-masing pelanggan!" << endl << endl;
+        cout << "Seluruh pakaian dalam tumpukan setrika telah\n"
+                "dipindahkan pada rak masing-masing pelanggan!\n\n";
     }
 }
 
@@ -62,6 +63,9 @@ void menuSetrika(){
             masukkanKeRak();
             break;
         default:
-            cout << "Masukan Anda salah!" << endl;
+            if (cin.fail()){
+                fail();
+            }
+            cout << "Masukan Anda salah!\n\n";
     }
 }

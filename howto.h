@@ -1,13 +1,13 @@
 void carapakai(){
     system("cls");
-    printEqualSign(50);
-    cout << "             Cara Menggunakan Program" << endl;
-    printEqualSign(50);
-    cout << "Deskripsi: Program ini merupakan program untuk mengelola kegiatan\n"
-            "operasional laundry kiloan.\n"
-            "Tujuan: Program ini bertujuan untuk mengawasi alur penerimaan pakaian\n"
-            "dari antrian pelanggan hingga pakaian selesai dicuci dan disetrika\n"
-            "untuk kemudian diambil oleh pelanggan\n"
+    printEqualSign(80);
+    cout << "                            Cara Menggunakan Program" << endl;
+    printEqualSign(80);
+    cout << "Deskripsi: Program ini merupakan program untuk mengelola kegiatan operasional\n"
+            "laundry kiloan.\n\n"
+            "Tujuan: Program ini bertujuan untuk mengawasi alur penerimaan pakaian dari\n"
+            "antrian pelanggan hingga pakaian selesai dicuci dan disetrika untuk kemudian\n"
+            "diambil oleh pelanggan\n\n"
             "Cara kerja:\n"
             "- Anda dapat mulai memasukkan pelanggan dengan mengisi data diri beserta\n"
             "pakaian yang akan dilaundry pada menu Antrian Pesanan -> Tambah Pelanggan\n"
@@ -34,6 +34,6 @@ void carapakai(){
             "menyelesaikan proses laundry dengan mengakses menu Ambil Pesanan -> Ambil\n"
             "Pesanan dari Rak.\n"
             "- Anda dapat melakukan konfigurasi untuk jenis pakaian dan biaya per paket\n"
-            "laundry pada menu Konfigurasi\n"
+            "laundry pada menu Konfigurasi\n\n"
             " ~~~~~~~~~~~~~~~ Happy Laundrying  ~~~~~~~~~~~~~~~ \n\n";
 }

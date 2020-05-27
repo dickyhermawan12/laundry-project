@@ -48,13 +48,13 @@ void traversalAntrian(){
     DataPelanggan *helper = queueDataPelanggan.head;
     int count = 1;
     if (helper == NULL){
-        cout << "Antrian Kosong!" << endl << endl;
+        cout << "Antrian Kosong!\n\n";
     } else {
         do {
             printEqualSign(50);
             cout << "                         " << count << endl;
             printEqualSign(50);
-            helper->printDataPelanggan();
+            helper->printDataPelanggan(helper->AKHIR);
             printEqualSign(50);
             helper=helper->next;
             count++;
@@ -80,7 +80,7 @@ void traversalPakaianAwal(){
         }
     }
     if (flag == 0){
-        cout << "Tidak ada nomor antrian!" << endl << endl;
+        cout << "Tidak ada nomor antrian!\n\n";
     }
 }
 
@@ -117,6 +117,6 @@ void menuAntrianPesanan(){
             if (cin.fail()){
                 fail();
             }
-            cout << "Masukan Anda salah!" << endl << endl;
+            cout << "Masukan Anda salah!\n\n";
     }
 }

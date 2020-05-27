@@ -129,7 +129,7 @@ struct DataPelanggan {
     int paket;
     float beratTotal;
     int jumlahPakaian[4];
-    double totalBiaya;
+    double totalBiaya[2];
     Pakaian *listPakaian;
     DataPelanggan *next;
     // constructor
@@ -139,9 +139,37 @@ struct DataPelanggan {
         for(int i=0; i<4; i++){
             jumlahPakaian[i] = 0;
         }
-        totalBiaya = 0;
+        for (int i = 0; i < 2; i++){
+            totalBiaya[i] = 0;
+        }
         listPakaian = NULL;
         next = NULL;
+    }
+    void bayar(){
+        char decision;
+        double nominal;
+        cout << "Apakah ingin melakukan pembayaran di muka? (Y/N)\n> ";
+        cin >> decision;
+        if (decision == 'Y' || decision == 'y'){
+            while (true){
+                printEqualSign(50);
+                cout << "Masukkan nominal pembayaran:\n> ";
+                cin >> nominal;
+                if (nominal >= 0 && nominal <= totalBiaya[1]){
+                    totalBiaya[0] = nominal;
+                    cout << "Pembayaran di muka berhasil!" << endl;
+                    cout << "Sisa tagihan pembayaran: " << totalBiaya[1]-totalBiaya[0] << endl;
+                    break;
+                } else {
+                    if (cin.fail()){
+                        fail();
+                    }
+                    cout << "Input Anda salah!" << endl;
+                }
+            }
+        } else {
+            return;
+        }
     }
     // method untuk menghitung total biaya
     void countTotal(float tempBerat, int tempPaket){
@@ -151,14 +179,14 @@ struct DataPelanggan {
         } else if (tempPaket == ::paket.EKSPRESS){
             biaya = ::paket.biaya[::paket.EKSPRESS];
         }
-        totalBiaya = ceil(tempBerat)*float(biaya);
+        totalBiaya[1] = ceil(tempBerat)*float(biaya);
     }
     // method untuk insersi pakaian
     void insertListPakaian(float &tempBerat, int &flag){
         Pakaian *newPakaian = new Pakaian;
         newPakaian->insertDataPakaian(nomorOrder);
-        if (((newPakaian->warna == ::warna.PUTIH) && (jumlahPakaian[::warna.PUTIH] == 10)) ||
-        ((newPakaian->warna == ::warna.BERWARNA) && (jumlahPakaian[::warna.BERWARNA] == 10))){
+        if (((newPakaian->warna == ::warna.PUTIH) && (jumlahPakaian[::warna.PUTIH] == maxCapacity)) ||
+        ((newPakaian->warna == ::warna.BERWARNA) && (jumlahPakaian[::warna.BERWARNA] == maxCapacity))){
             printEqualSign(50);
             cout << "Jumlah pakaian dengan warna ini telah mencapai batas maksimal!" << endl;
             delete newPakaian;
@@ -205,7 +233,7 @@ struct DataPelanggan {
         while(true){
             system("cls");
             printEqualSign(50);
-            printDataPelanggan();
+            printDataPelanggan(AWAL);
             printEqualSign(50);
             cout << "Masukkan pakaian ke - " << count << endl;
             printEqualSign(50);
@@ -222,20 +250,29 @@ struct DataPelanggan {
             if (decision=='Y' || decision=='y'){
                 continue;
             } else {
+                system("cls");
+                printEqualSign(50);
+                printDataPelanggan(AKHIR);
+                printEqualSign(50);
+                bayar();
                 break;
             }
         }
         globalNomorOrder++;
     }
     // method untuk mencetak data pelanggan
-    void printDataPelanggan(){
+    void printDataPelanggan(int get){
         cout << "Nomor Order       : " << nomorOrder << endl;
         cout << "Nama Pelanggan    : " << nama << endl;
         cout << "Alamat            : " << alamat << endl;
         cout << "Paket             : " << ::paket.nama[paket] << endl;
         cout << "Berat Total (kg)  : " << beratTotal << endl;
         cout << "Jumlah Pakaian    : " << jumlahPakaian[AWAL] << endl;
-        cout << "Total Biaya       : " << totalBiaya << endl;
+        if (get == AKHIR){
+            cout << "Sudah Membayar    : " << totalBiaya[0] << endl;
+            cout << "Sisa Tagihan      : " << totalBiaya[1]-totalBiaya[0] << endl;
+        }
+        cout << "Total Biaya       : " << totalBiaya[1] << endl;
     }
     // method untuk mengeluarkan pakaian dari list
 };

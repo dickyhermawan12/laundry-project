@@ -16,6 +16,7 @@ void ubahJenis(){
             "2. Tambah jenis pakaian\n"
             "Masukkan pilihan:\n> ";
     cin >> menuSelector;
+    printEqualSign(50);
     switch (menuSelector){
         case UBAHJENIS:
             cout << "Apa yang akan diubah?\n> ";
@@ -25,11 +26,11 @@ void ubahJenis(){
             cout << "Ubah menjadi?\n> ";
             getline(cin, changes);
             ::jenis.pakaian[inMenuSelector] = changes;
-            cout << "Jenis terubah!" << endl;
+            cout << "Jenis terubah!\n\n";
             break;
         case TAMBAHJENIS:
             if (::jenis.maxJenis == 19){
-                cout << "Jenis pakaian penuh!" << endl << endl;
+                cout << "Jenis pakaian penuh!\n\n";
                 break;
             }
             ::jenis.maxJenis++;
@@ -37,13 +38,13 @@ void ubahJenis(){
             cout << "Ingin menambah apa?\n> ";
             getline(cin, changes);
             ::jenis.pakaian[::jenis.maxJenis] = changes;
-            cout << "Jenis " << changes << " ditambah!" << endl << endl;
+            cout << "Jenis " << changes << " ditambah!\n\n";
             break;
         default:
             if (cin.fail()){
                 fail();
             }
-            cout << "Masukan Anda salah!" << endl << endl;
+            cout << "Masukan Anda salah!\n\n";
     }
 }
 
@@ -65,16 +66,45 @@ void ubahBiaya(){
             cout << "Ubah menjadi?\n> ";
             cin >> changes;
             ::paket.biaya[::paket.REGULER] = changes;
-            cout << "Biaya reguler terubah!" << endl;
+            cout << "Biaya reguler terubah!\n\n";
             break;
         case (::paket.EKSPRESS):
             cout << "Ubah menjadi?\n> ";
             cin >> changes;
             ::paket.biaya[::paket.EKSPRESS] = changes;
-            cout << "Biaya ekspress terubah!" << endl << endl;
+            cout << "Biaya ekspress terubah!\n\n";
             break;
         default:
-            cout << "Masukan Anda salah!" << endl << endl;
+            if (cin.fail()){
+                fail();
+            }
+            cout << "Masukan Anda salah!\n\n";
+    }
+}
+
+void ubahKapasitas(){
+    int changes;
+    cout << "Kapasitas masing-masing mesin cuci saat ini: " << maxCapacity << endl;
+    while (true){
+        cout << "Ubah menjadi?\n> ";
+        cin >> changes;
+        if (changes >= 0 && changes <= 50){
+            maxCapacity = changes;
+            cout << "Kapasitas mesin cuci maksimal berhasil diubah\n"
+                    "menjadi " << maxCapacity << "!\n\n";
+            break;
+        } else {
+            if (changes < 0){
+                cout << "Input tidak boleh negatif!" << endl;
+            }
+            if (changes > 50){
+                cout << "Input Anda terlalu besar!" << endl;
+            }
+            if (cin.fail()){
+                fail();
+            }
+            cout << "Input Anda salah!" << endl;
+        }
     }
 }
 
@@ -82,16 +112,17 @@ void ubahBiaya(){
 void configuration(){
     enum enumConfiguration {
         UBAHJENIS=1,
-        UBAHBIAYA
+        UBAHBIAYA,
+        UBAHKAPASITAS
     };
     int menuSelector = 0;
     system("cls");
     printEqualSign(37);
     cout << "                  Konfigurasi\n";
     printEqualSign(37);
-    cout << "Apa yang ingin diubah?\n"
-            "1. Jenis Pakaian\n"
-            "2. Biaya Paket\n"
+    cout << "1. Ubah Jenis Pakaian\n"
+            "2. Ubah Biaya Paket\n"
+            "3. Ubah Kapasitas Mesin Cuci\n"
             "Masukkan pilihan:\n> ";
     cin >> menuSelector;
     printEqualSign(50);
@@ -102,7 +133,10 @@ void configuration(){
         case UBAHBIAYA:
             ubahBiaya();
             break;
+        case UBAHKAPASITAS:
+            ubahKapasitas();
+            break;
         default:
-            cout << "Masukan Anda salah!" << endl << endl;
+            cout << "Masukan Anda salah!\n\n";
     }
 }

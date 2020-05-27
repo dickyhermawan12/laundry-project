@@ -4,9 +4,9 @@
 void cekMesinCuci(){
     char decision;
     cout << "Kapasitas Mesin Cuci Putih saat ini:\n";
-    cout << mesinCuci.kapasitasPutih << " / 10" << endl;
+    cout << mesinCuci.kapasitasPutih << " / " << maxCapacity << endl;
     cout << "Kapasitas Mesin Cuci Warna saat ini:\n";
-    cout << mesinCuci.kapasitasWarna << " / 10" << endl;
+    cout << mesinCuci.kapasitasWarna << " / " << maxCapacity << endl;
     printEqualSign(50);
 
     if (mesinCuci.kapasitasPutih != 0 || mesinCuci.kapasitasWarna != 0){
@@ -14,12 +14,14 @@ void cekMesinCuci(){
         cin >> decision;
         if (decision == 'Y' || decision == 'y'){
             if (mesinCuci.kapasitasPutih != 0){
+                printEqualSign(50);
                 cout << "Mesin Cuci Putih" << endl;
                 printEqualSign(50);
                 traversalPakaian(mesinCuci.mesinCuciPutih);
             }
 
             if (mesinCuci.kapasitasWarna != 0){
+                printEqualSign(50);
                 cout << "Mesin Cuci Warna" << endl;
                 printEqualSign(50);
                 traversalPakaian(mesinCuci.mesinCuciWarna);
@@ -31,10 +33,10 @@ void cekMesinCuci(){
 // fungsi untuk mengisi pakaian ke mesin cuci
 void isiMesinCuci(){
     if (queueDataPelanggan.head == NULL) {
-        cout << "Antrian pelanggan kosong!" << endl << endl;
-    } else if ((queueDataPelanggan.head->jumlahPakaian[::warna.PUTIH] > (10-mesinCuci.kapasitasPutih)) ||
-        (queueDataPelanggan.head->jumlahPakaian[::warna.BERWARNA] > (10-mesinCuci.kapasitasWarna))){
-        cout << "Mesin cuci penuh!" << endl << endl;
+        cout << "Antrian pelanggan kosong!\n\n";
+    } else if ((queueDataPelanggan.head->jumlahPakaian[::warna.PUTIH] > (maxCapacity-mesinCuci.kapasitasPutih)) ||
+        (queueDataPelanggan.head->jumlahPakaian[::warna.BERWARNA] > (maxCapacity-mesinCuci.kapasitasWarna))){
+        cout << "Mesin cuci penuh!\n\n";
     } else {
         DataPelanggan *helpAntrian;
         Pakaian *helpPakaian;
@@ -50,8 +52,8 @@ void isiMesinCuci(){
             helpPakaian->next = NULL;
             mesinCuci.pushMesinCuci(helpPakaian);
         } while(helpAntrian->listPakaian!=NULL);
-        cout << helpAntrian->nama << " telah dikeluarkan dari antrian pelanggan..." << endl;
-        cout << "Rak milik " << helpAntrian->nama << " telah dipersiapkan!" << endl << endl;
+        cout << helpAntrian->nama << " telah dikeluarkan dari antrian pelanggan...\n";
+        cout << "Rak milik " << helpAntrian->nama << " telah dipersiapkan!\n\n";
     }
 }
 
@@ -74,11 +76,12 @@ void popMesinCuci(Pakaian *&jenisMesinCuci, int &kapasitas){
 // fungsi untuk mengeluarkan pakaian dari mesin cuci
 void keluarkanPakaian(){
     if (mesinCuci.kapasitasPutih == 0 && mesinCuci.kapasitasWarna == 0) {
-        cout << "Mesin Cuci Kosong!" << endl << endl;
+        cout << "Mesin Cuci Kosong!\n\n";
     } else {
         popMesinCuci(mesinCuci.mesinCuciPutih, mesinCuci.kapasitasPutih);
         popMesinCuci(mesinCuci.mesinCuciWarna, mesinCuci.kapasitasWarna);
-        cout << "Seluruh pakaian dalam mesin cuci berhasil dikeluarkan dan ditumpuk pada tumpukan setrika!" << endl << endl;
+        cout << "Seluruh pakaian dalam mesin cuci berhasil\n"
+                "dikeluarkan dan ditumpuk pada tumpukan setrika!\n\n";
     }
 }
 
@@ -115,6 +118,6 @@ void menuMesinCuci(){
             if (cin.fail()){
                 fail();
             }
-            cout << "Masukan Anda salah!" << endl << endl;
+            cout << "Masukan Anda salah!\n\n";
     }
 }
