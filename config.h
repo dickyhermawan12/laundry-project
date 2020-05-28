@@ -19,8 +19,15 @@ void ubahJenis(){
     printEqualSign(50);
     switch (menuSelector){
         case UBAHJENIS:
-            cout << "Apa yang akan diubah?\n> ";
-            cin >> inMenuSelector;
+            while (true){
+                cout << "Apa yang akan diubah?\n> ";
+                cin >> inMenuSelector;
+                if (!cin.fail() && (inMenuSelector >= 1 && inMenuSelector <= ::jenis.maxJenis)){
+                    break;
+                }
+                fail();
+                cout << "Input Anda salah!" << endl;
+            }
             cout << "Mengubah " << ::jenis.pakaian[inMenuSelector] << "..." << endl;
             cin.ignore();
             cout << "Ubah menjadi?\n> ";
@@ -63,14 +70,28 @@ void ubahBiaya(){
     printEqualSign(50);
     switch (menuSelector){
         case (::paket.REGULER):
-            cout << "Ubah menjadi?\n> ";
-            cin >> changes;
+            while (true){
+                cout << "Ubah menjadi?\n> ";
+                cin >> changes;
+                if (!cin.fail() && changes > 0){
+                    break;
+                }
+                fail();
+                cout << "Input Anda salah!" << endl;
+            }
             ::paket.biaya[::paket.REGULER] = changes;
             cout << "Biaya reguler terubah!\n\n";
             break;
         case (::paket.EKSPRESS):
-            cout << "Ubah menjadi?\n> ";
-            cin >> changes;
+            while (true){
+                cout << "Ubah menjadi?\n> ";
+                cin >> changes;
+                if (!cin.fail() && changes > 0){
+                    break;
+                }
+                fail();
+                cout << "Input Anda salah!" << endl;
+            }
             ::paket.biaya[::paket.EKSPRESS] = changes;
             cout << "Biaya ekspress terubah!\n\n";
             break;
@@ -117,9 +138,9 @@ void configuration(){
     };
     int menuSelector = 0;
     system("cls");
-    printEqualSign(37);
+    printEqualSign(50);
     cout << "                  Konfigurasi\n";
-    printEqualSign(37);
+    printEqualSign(50);
     cout << "1. Ubah Jenis Pakaian\n"
             "2. Ubah Biaya Paket\n"
             "3. Ubah Kapasitas Mesin Cuci\n"

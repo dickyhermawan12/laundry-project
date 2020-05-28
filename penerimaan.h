@@ -65,8 +65,15 @@ void traversalAntrian(){
 // fungsi untuk melakukan traversal pakaian (penerimaan)
 void traversalPakaianAwal(){
     int id, flag = 0;
-    cout << "Masukkan nomor order pesanan:\n> ";
-    cin >> id;
+    while (true){
+        cout << "Masukkan nomor order pesanan:\n> ";
+        cin >> id;
+        if (!cin.fail()){
+            break;
+        }
+        fail();
+        cout << "Input Anda salah!" << endl;
+    }
     DataPelanggan *helpAntrian = queueDataPelanggan.head;
     while(helpAntrian != NULL){
         if (helpAntrian->nomorOrder == id){

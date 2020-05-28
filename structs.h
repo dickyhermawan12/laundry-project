@@ -96,8 +96,15 @@ struct Pakaian {
         }
         printEqualSign(50);
         // input jenis pakaian
-        cout << "Masukkan jenis pakaian (1-8) :\n> ";
-        cin >> jenis;
+        while (true){
+            cout << "Masukkan jenis pakaian (1-8) :\n> ";
+            cin >> jenis;
+            if (!cin.fail() && (jenis >= 1 && jenis <= 8)){
+                break;
+            }
+            fail();
+            cout << "Input Anda salah!" << endl;
+        }
         printEqualSign(50);
         // print list warna pakaian
         cout << "Warna pakaian yang diterima:\n";
@@ -106,12 +113,27 @@ struct Pakaian {
         }
         printEqualSign(50);
         // input warna pakaian
-        cout << "Masukkan warna pakaian (1/2) :\n> ";
-        cin >> warna;
+        while (true){
+            cout << "Masukkan warna pakaian (1/2) :\n> ";
+            cin >> warna;
+            if (!cin.fail() && (warna == 1 || warna == 2)){
+                break;
+            }
+            fail();
+            cout << "Input Anda salah!" << endl;
+        }
+        
         printEqualSign(50);
         // input berat pakaian
-        cout << "Masukkan berat pakaian (gram) :\n> ";
-        cin >> berat;
+        while (true){
+            cout << "Masukkan berat pakaian (gram) :\n> ";
+            cin >> berat;
+            if (!cin.fail() && berat > 0){
+                break;
+            }
+            fail();
+            cout << "Input Anda salah!" << endl;
+        }
     }
 
 };
@@ -145,20 +167,21 @@ struct DataPelanggan {
         listPakaian = NULL;
         next = NULL;
     }
+    // method untuk memberikan opsi pembayaran di muka
     void bayar(){
         char decision;
         double nominal;
         cout << "Apakah ingin melakukan pembayaran di muka? (Y/N)\n> ";
         cin >> decision;
         if (decision == 'Y' || decision == 'y'){
+            printEqualSign(50);
             while (true){
-                printEqualSign(50);
                 cout << "Masukkan nominal pembayaran:\n> ";
                 cin >> nominal;
-                if (nominal >= 0 && nominal <= totalBiaya[1]){
+                if (nominal > 0 && nominal <= totalBiaya[1]){
                     totalBiaya[0] = nominal;
                     cout << "Pembayaran di muka berhasil!" << endl;
-                    cout << "Sisa tagihan pembayaran: " << totalBiaya[1]-totalBiaya[0] << endl;
+                    cout << "Sisa tagihan pembayaran: " << totalBiaya[1]-totalBiaya[0] << endl << endl;
                     break;
                 } else {
                     if (cin.fail()){
@@ -228,8 +251,15 @@ struct DataPelanggan {
             cout << i << " - " << ::paket.nama[i] << " - " << ::paket.biaya[i] << endl;
         }
         printEqualSign(50);
-        cout << "Masukkan paket yang dipilih (1/2):\n> ";
-        cin >> paket;
+        while (true){
+            cout << "Masukkan paket yang dipilih (1/2):\n> ";
+            cin >> paket;
+            if (!cin.fail() && (paket == 1 || paket == 2)){
+                break;
+            }
+            fail();
+            cout << "Input Anda salah!" << endl;
+        }
         while(true){
             system("cls");
             printEqualSign(50);
@@ -274,14 +304,13 @@ struct DataPelanggan {
         }
         cout << "Total Biaya       : " << totalBiaya[1] << endl;
     }
-    // method untuk mengeluarkan pakaian dari list
 };
 
 // struct untuk menyimpan data antrian pelanggan
 struct antrianPelanggan {
     DataPelanggan *head;
     DataPelanggan *tail;
-
+    // constructor
     antrianPelanggan(){
         head = NULL;
         tail = NULL;
@@ -292,12 +321,12 @@ struct antrianPelanggan {
 struct StackSetrika {
     Pakaian *listPakaian;
     int jumlahPakaian;
-
+    // constructor
     StackSetrika(){
         listPakaian = NULL;
         jumlahPakaian = 0;
     }
-
+    // method untuk melakukan push pada stack listPakaian
     void pushStackSetrika(Pakaian *&poppedPakaian){
         if (jumlahPakaian == 0){
             listPakaian = poppedPakaian;
@@ -312,13 +341,13 @@ struct StackSetrika {
 // struct untuk menyimpan data rak
 struct Rak {
     DataPelanggan *arrayRak[50];
-
+    // constructor
     Rak(){
         for(int i=0; i<50; i++){
             arrayRak[i] = NULL;
         }
     }
-
+    // method untuk mengisi array rak pemilik sesuai index dari nomorOrder
     void isiRak(DataPelanggan *&poppedPelanggan){
         int nomorOrder = poppedPelanggan->nomorOrder;
         nomorOrder--;
@@ -329,10 +358,11 @@ struct Rak {
             arrayRak[nomorOrder]->next = poppedPelanggan;
         }
     }
-
+    // method untuk melakukan mengisi pakaian ke rak masing-masing pemiliknya
     void isiPakaianKeRak(Pakaian *&poppedPakaian){
         int nomorOrder = poppedPakaian->nomorOrder;
         nomorOrder--;
+        nomorOrder%=50;
         DataPelanggan *helperPelanggan = arrayRak[nomorOrder];
         if (helperPelanggan->next != NULL){
             while (helperPelanggan != NULL){
@@ -344,13 +374,13 @@ struct Rak {
             }
         }
 
-        if (helperPelanggan->jumlahPakaian[3] == 0){
+        if (helperPelanggan->jumlahPakaian[helperPelanggan->AKHIR] == 0){
             helperPelanggan->listPakaian = poppedPakaian;
         } else {
             poppedPakaian->next = helperPelanggan->listPakaian;
             helperPelanggan->listPakaian = poppedPakaian;
         }
-        helperPelanggan->jumlahPakaian[3]++;
+        helperPelanggan->jumlahPakaian[helperPelanggan->AKHIR]++;
     }
 } rak;
 
@@ -367,7 +397,7 @@ struct MesinCuci {
         mesinCuciPutih = NULL;
         mesinCuciWarna = NULL;
     }
-    // method untuk push data ke mesin cuci
+    // method untuk push data pakaian ke mesin cuci
     void pushMesinCuci(Pakaian *&pakaianMasuk){
         if (pakaianMasuk->warna == warna.PUTIH){
             if (kapasitasPutih == 0){

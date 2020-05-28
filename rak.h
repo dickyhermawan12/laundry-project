@@ -4,10 +4,17 @@
 void cekRak(){
     int nomorOrderRak, flag = 0;
     char decision;
-    cout << "Masukkan nomor order\n> ";
-    cin >> nomorOrderRak;
+    while (true){
+        cout << "Masukkan nomor order\n> ";
+        cin >> nomorOrderRak;
+        if (!cin.fail()){
+            break;
+        }
+        fail();
+        cout << "Input Anda salah!" << endl;
+    }
     printEqualSign(50);
-    DataPelanggan *helper = rak.arrayRak[nomorOrderRak - 1];
+    DataPelanggan *helper = rak.arrayRak[(nomorOrderRak - 1)%50];
     while (helper != NULL){
         if (helper->nomorOrder == nomorOrderRak){
             cout << "Rak dengan nomor order " << nomorOrderRak << " ditemukan!" << endl;
@@ -27,7 +34,7 @@ void cekRak(){
                 cin >> decision;
                 if (decision == 'Y' || decision == 'y'){
                     helper->totalBiaya[0] = helper->totalBiaya[1];
-                    cout << "Pembayaran berhasil dan telah dilunasi!" << endl;
+                    cout << "Pembayaran berhasil dilunasi!\n\n";
                 }
             }
             flag = 1;
@@ -45,10 +52,17 @@ void cekRak(){
 // fungsi untuk mengambil/ mengosongkan pesanan dari rak
 void ambilPesananDariRak(){
     int nomorOrderRak, flag = 0;
-    cout << "Masukkan nomor order\n> ";
-    cin >> nomorOrderRak;
+    while (true){
+        cout << "Masukkan nomor order\n> ";
+        cin >> nomorOrderRak;
+        if (!cin.fail()){
+            break;
+        }
+        fail();
+        cout << "Input Anda salah!" << endl;
+    }
     printEqualSign(50);
-    DataPelanggan *helper = rak.arrayRak[nomorOrderRak - 1];
+    DataPelanggan *helper = rak.arrayRak[(nomorOrderRak - 1)%50];
     while (helper != NULL){
         if (helper->nomorOrder == nomorOrderRak){
             if (helper->jumlahPakaian[helper->AKHIR] != helper->jumlahPakaian[helper->AWAL] ||
@@ -58,7 +72,7 @@ void ambilPesananDariRak(){
                 if (rak.arrayRak[nomorOrderRak - 1] == helper){
                     rak.arrayRak[nomorOrderRak - 1] = NULL;
                 } else {
-                    DataPelanggan *secondHelper = rak.arrayRak[nomorOrderRak - 1];
+                    DataPelanggan *secondHelper = rak.arrayRak[(nomorOrderRak - 1)%50];
                     do {
                         if (secondHelper->next == helper){
                             if (helper->next != NULL){
